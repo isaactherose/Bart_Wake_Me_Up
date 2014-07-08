@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Bart Wake Me Up</string>
-    <string name="hello_world">Select The Staion You Are Starting</string>
+    <string name="hello_world">Select The Station You Are Starting</string>
     <string name="action_settings">Settings</string>
 
 </resources>
