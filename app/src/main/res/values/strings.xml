@@ -2,7 +2,9 @@
 <resources>
 
     <string name="app_name">Bart Wake Me Up</string>
-    <string name="hello_world">Select The Station You Are Starting</string>
+    <string name="station_select_string">Select The Station You Are Starting</string>
     <string name="action_settings">Settings</string>
-
+    <string name="title_activity_time_left">TimeLeftActivity</string>
+    <string name="title_activity_wake_up">WakeUpActivity</string>
+    <string name="station_destination_string">Select The Station You Are Going</string>
 </resources>

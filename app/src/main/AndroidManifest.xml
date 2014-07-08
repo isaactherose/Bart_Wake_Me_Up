@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.oneroseapps.bartwakemeup.app.TimeLeftActivity"
+            android:label="@string/title_activity_time_left" >
+        </activity>
+        <activity
+            android:name="com.oneroseapps.bartwakemeup.app.WakeUpActivity"
+            android:label="@string/title_activity_wake_up" >
+        </activity>
     </application>
 
 </manifest>
