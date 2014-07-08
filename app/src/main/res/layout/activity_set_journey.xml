@@ -17,13 +17,31 @@
         android:gravity="center"
         />
 
+    <Spinner
+        android:id="@+id/stationFromSelector"
+        android:layout_below="@+id/stationFromText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        </Spinner>
+
     <TextView
         android:id="@+id/stationToText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/station_destination_string"
-        android:layout_below="@id/stationFromText"
+        android:layout_below="@id/stationFromSelector"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:id="@+id/stationToSelector"
+        android:layout_below="@+id/stationToText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        </Spinner>
+    <Button
+        android:id="@+id/StartJourney"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
