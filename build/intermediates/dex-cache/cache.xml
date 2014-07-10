@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/Users/valeriechao/AndroidStudioProjects/BartWakeMeUp/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.3-858079a8bbc61b4f79df6d13164380d65cd7520e.jar"
+        jar="/Users/valeriechao/AndroidStudioProjects/BartWakeMeUp/app/libs/android-async-http-1.4.3.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="f70e680861fdf9449819003e7799a4e9aca047f8"/>
+
+</pre-dex-items>
