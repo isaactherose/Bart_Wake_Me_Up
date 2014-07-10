@@ -1,9 +1,11 @@
 package com.oneroseapps.bartwakemeup.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class SetJourney extends Activity {
@@ -12,6 +14,13 @@ public class SetJourney extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_journey);
+
+
+    }
+
+    public void StartJourney(View v){
+        Intent start = new Intent(getApplicationContext(), TimeLeftActivity.class);
+        startActivity(start);
     }
 
 
@@ -22,6 +31,8 @@ public class SetJourney extends Activity {
         getMenuInflater().inflate(R.menu.set_journey, menu);
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

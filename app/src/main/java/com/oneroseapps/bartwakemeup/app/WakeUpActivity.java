@@ -1,9 +1,11 @@
 package com.oneroseapps.bartwakemeup.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class WakeUpActivity extends Activity {
@@ -14,6 +16,10 @@ public class WakeUpActivity extends Activity {
         setContentView(R.layout.activity_wake_up);
     }
 
+    public void startNewTripClick(View v){
+        Intent startNewTrip = new Intent(getApplicationContext(), SetJourney.class);
+        startActivity(startNewTrip);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

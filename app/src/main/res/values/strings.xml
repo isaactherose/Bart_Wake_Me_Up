@@ -7,4 +7,7 @@
     <string name="title_activity_time_left">TimeLeftActivity</string>
     <string name="title_activity_wake_up">WakeUpActivity</string>
     <string name="station_destination_string">Select The Station You Are Going</string>
+    <string name="startJourneyText">Start Journey</string>
+    <string name="cancelTripText">Cancel Trip</string>
+    <string name="startNewTripText">Start A New Trip!</string>
 </resources>

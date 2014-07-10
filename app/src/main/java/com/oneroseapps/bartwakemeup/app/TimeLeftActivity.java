@@ -1,12 +1,15 @@
 package com.oneroseapps.bartwakemeup.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class TimeLeftActivity extends Activity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,6 +17,10 @@ public class TimeLeftActivity extends Activity {
         setContentView(R.layout.activity_time_left);
     }
 
+    public void CancelTrip(View v){
+        Intent cancel = new Intent(getApplicationContext(), SetJourney.class);
+        startActivity(cancel);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -22,6 +29,10 @@ public class TimeLeftActivity extends Activity {
         getMenuInflater().inflate(R.menu.time_left, menu);
         return true;
     }
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
