@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 
 
 public class TimeLeftActivity extends Activity {
@@ -24,7 +25,9 @@ public class TimeLeftActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+        //this removed top bar
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.time_left, menu);
         return true;
