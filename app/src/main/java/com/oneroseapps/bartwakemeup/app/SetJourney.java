@@ -34,7 +34,9 @@ import java.util.HashMap;
 
 public class SetJourney extends Activity {
     //station list
-    HashMap<String, String> stationList = new HashMap<String, String>();
+    //HashMap<String, String> stationList = new HashMap<String, String>();
+    //ArrayList<String> stationListSpinner = new ArrayList<String>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +45,16 @@ public class SetJourney extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_journey);
-        intializeMap();
+        //intializeMap();
         //startJourney(null);
 
     }
 
-    void intializeMap(){
+    /*void initalizeMapListSpinner(){
+
+
+    }*/
+    /*void intializeMap(){
         stationList.put("12th St. Oakland City Center","12TH");
         stationList.put("16th St. Mission (SF)","16TH");
         stationList.put("19th St. Oakland","19TH");
@@ -96,7 +102,7 @@ public class SetJourney extends Activity {
 
     }
 
-
+*/
 
     public void startJourney(View v){
         //defines
