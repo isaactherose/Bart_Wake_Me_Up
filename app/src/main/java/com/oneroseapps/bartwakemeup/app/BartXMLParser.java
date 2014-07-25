@@ -40,7 +40,7 @@ public class BartXMLParser {
             }
             String name = parser.getName();
             // Starts by looking for the entry tag
-            if (name.equals("trip")) {
+            if (name.equals("schedule")) {
                 entries.add(Trip.readEntry(parser));
             } else {
                 Trip.skip(parser);
@@ -62,7 +62,7 @@ public class BartXMLParser {
         // Parses the contents of an entry. If it encounters a title, summary, or link tag, hands them off
 // to their respective "read" methods for processing. Otherwise, skips the tag.
         private static Trip readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
-            parser.require(XmlPullParser.START_TAG, ns, "entry");
+            parser.require(XmlPullParser.START_TAG, ns, "schedule");
             String orig = null;
             String dest = null;
             while (parser.next() != XmlPullParser.END_TAG) {
@@ -70,7 +70,24 @@ public class BartXMLParser {
                     continue;
                 }
                 String name = parser.getName();
-                if (name.equals("origTimeMin")) {
+                if (name.equals("request")) {
+                    parser.require(XmlPullParser.START_TAG, ns, "request");
+                    while (parser.next() != XmlPullParser.END_TAG) {
+                        if (parser.getEventType() != XmlPullParser.START_TAG) {
+                            continue;
+                        }
+                        String nameIn = parser.getName();
+                        if(nameIn.equals("trip")){
+                            String origType = parser.getAttributeValue(null, "origTimeMin");
+                            String destType = parser.getAttributeValue(null, "destTimeMin");
+                        }
+                        else if(nameIn.equals("leg")){
+                            skip(parser);
+                        }
+                        else{
+                            skip(parser);
+                        }
+                    }
                     orig = readOrigTimeMin(parser);
                 }  else if (name.equals("destTimeMin")) {
                     dest = readDestTimeMin(parser);

@@ -9,9 +9,21 @@
     tools:context="com.oneroseapps.bartwakemeup.app.TimeLeftActivity">
 
     <TextView
-        android:text="@string/station_select_string"
+        android:text="You Will Arrive At This Time:"
+        android:id="@+id/timeLeftText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/timeLeftNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TIME"
+        android:layout_below="@+id/timeLeftText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

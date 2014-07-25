@@ -2,11 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.oneroseapps.bartwakemeup.app" >
 
-
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +15,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.oneroseapps.bartwakemeup.app.SetJourney"
+            android:name=".SetJourney"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,13 +23,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".AlarmReceiver" />
+
         <activity
-            android:name="com.oneroseapps.bartwakemeup.app.TimeLeftActivity"
+            android:name=".TimeLeftActivity"
             android:label="@string/title_activity_time_left" >
         </activity>
         <activity
-            android:name="com.oneroseapps.bartwakemeup.app.WakeUpActivity"
+            android:name=".WakeUpActivity"
             android:label="@string/title_activity_wake_up" >
+        </activity>
+        <activity
+            android:name=".WaitActivity"
+            android:label="@string/title_activity_wait" >
         </activity>
     </application>
 
