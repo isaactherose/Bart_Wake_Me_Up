@@ -46,6 +46,8 @@ public class TimeLeftActivity extends Activity  {
         Log.d("Debug","Cancelling the alarm");
         Intent cancel = new Intent(getApplicationContext(), SetJourney.class);
         startActivity(cancel);
+
+
     }
 
     /*@Override

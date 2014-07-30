@@ -13,17 +13,22 @@
         android:id="@+id/timeLeftText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_alignParentTop="true"
-        android:gravity="center"/>
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp"/>
 
     <TextView
         android:id="@+id/timeLeftNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:text="TIME"
         android:layout_below="@+id/timeLeftText"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textSize="60dp"
+        android:layout_centerVertical="true"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -179,17 +179,27 @@ public class SetJourney extends Activity {
 
 
     public void startJourney(View v){
-        //defines
-
+        //this will be the API call to get the information about destination time
         String origin = fromStationAbbrev;
         String dest = toStationAbbrev;
+        //this will be the error handling if the origin and destination are the same
+        if(origin == dest) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Your destination station needs to be different from your starting station!", Toast.LENGTH_LONG);
+            toast.show();
+        }
+        else{
         //URL TO get response
-        String url1 = "http://api.bart.gov/api/sched.aspx?cmd=depart&orig="+origin+ "&dest="+dest+ "&time=now&date=now&key=ZQLM-UEUU-ID2Q-DT35";
+     String url1 = "http://api.bart.gov/api/sched.aspx?cmd=depart&orig="+origin+ "&dest="+dest+ "&time=now&date=now&key=ZQLM-UEUU-ID2Q-DT35";
         //this will call and get response from BART API
 
-        new execHttpAsync().execute(url1);
-        spinner.setVisibility(View.VISIBLE);
+       new execHttpAsync().execute(url1);
+       spinner.setVisibility(View.VISIBLE);
 
+
+
+            new execHttpAsync().execute(url1);
+            spinner.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -342,11 +352,11 @@ public class SetJourney extends Activity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            diff = curTime.getTime() - startDate.getTime();
-            if(i==0  && diff>=0)
+            diff = Math.abs(curTime.getTime() - startDate.getTime());
+            if(i==0 )
                 min = diff;
             else{
-                if(diff<min && diff>=0){
+                if(diff<min ){
                     min = diff;
                     minIndex = i;
                 }

@@ -31,6 +31,7 @@ public class WakeUpActivity extends Activity {
     }
 
     public void startNewTripClick(View v){
+       // AlarmReceiver.alarmSound.stop();
         Intent startNewTrip = new Intent(getApplicationContext(), SetJourney.class);
         startActivity(startNewTrip);
     }
