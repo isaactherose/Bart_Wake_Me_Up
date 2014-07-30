@@ -2,9 +2,11 @@ package com.oneroseapps.bartwakemeup.app;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,11 +14,16 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import java.io.Serializable;
 
-public class TimeLeftActivity extends Activity {
+
+public class TimeLeftActivity extends Activity  {
     TextView textView;
+    final static int RQS_1 = 1;
+    String alarmTime;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -25,7 +32,10 @@ public class TimeLeftActivity extends Activity {
         textView = (TextView) findViewById(R.id.timeLeftNumber);
         //this will set the text
         //textView.setText(arrivalTimeExpected);
-        textView.setText( SetJourney.alarmTime);
+        Intent setJourney = getIntent();
+        alarmTime = setJourney.getStringExtra("DestinationTime");
+
+        textView.setText(alarmTime);
 
     }
 

@@ -17,24 +17,16 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,9 +49,10 @@ public class SetJourney extends Activity {
     final static int RQS_1 = 1;
     public static String alarmTime = null;
     public static PendingIntent pendingIntent = null;
-
+    Intent intentAlarm = null;
     //the spinner for progress
     private ProgressBar spinner;
+    Intent timeLeftIntent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +66,12 @@ public class SetJourney extends Activity {
 
         //THIS WILL SET THE TO STATION SPINNER
         Spinner spinner1 = (Spinner) findViewById(R.id.stationToSelector);
-// Create an ArrayAdapter using the string array and a default spinner layout
+        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
                 R.array.stationSpinnerList, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
+        // Specify the layout to use when the list of choices appears
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
+        // Apply the adapter to the spinner
         spinner1.setAdapter(adapter1);
 
         //create progress bar
@@ -102,12 +95,12 @@ public class SetJourney extends Activity {
 
         //THIS WILL SET THE FROM STATION SPINNER
         Spinner spinner2 = (Spinner) findViewById(R.id.stationFromSelector);
-// Create an ArrayAdapter using the string array and a default spinner layout
+        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.stationSpinnerList, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
+        // Specify the layout to use when the list of choices appears
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
+        // Apply the adapter to the spinner
         spinner2.setAdapter(adapter2);
 
 
@@ -132,15 +125,10 @@ public class SetJourney extends Activity {
     public String convertToHashmap(String toStation) {
         String stationValue = stationList.get(toStation);
         stationValue.toString();
-        Log.d("value of hashmap xxxxxxxx", stationValue);
+        Log.d("Debug","value of hashmap xxxxxxxx"+ stationValue);
         return stationValue;
     }
 
-
-    void initalizeMapListSpinner(){
-
-
-    }
     void intializeMap(){
         stationList.put("12th St. Oakland City Center","12TH");
         stationList.put("16th St. Mission (SF)","16TH");
@@ -193,21 +181,21 @@ public class SetJourney extends Activity {
     public void startJourney(View v){
         //defines
 
-     String origin = fromStationAbbrev;
-     String dest = toStationAbbrev;
+        String origin = fromStationAbbrev;
+        String dest = toStationAbbrev;
         //URL TO get response
-     String url1 = "http://api.bart.gov/api/sched.aspx?cmd=depart&orig="+origin+ "&dest="+dest+ "&time=now&date=now&key=ZQLM-UEUU-ID2Q-DT35";
+        String url1 = "http://api.bart.gov/api/sched.aspx?cmd=depart&orig="+origin+ "&dest="+dest+ "&time=now&date=now&key=ZQLM-UEUU-ID2Q-DT35";
         //this will call and get response from BART API
 
-       new execHttpAsync().execute(url1);
-       spinner.setVisibility(View.VISIBLE);
+        new execHttpAsync().execute(url1);
+        spinner.setVisibility(View.VISIBLE);
 
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.set_journey, menu);
         return true;
@@ -230,108 +218,87 @@ public class SetJourney extends Activity {
 
 
     private class execHttpAsync extends AsyncTask<String, Void, String>
-{
-    public String resultString;
-    public ArrayList<String> startDestTimes;
-    @Override
-    protected String doInBackground(String... params)
     {
-        String url = params[0];
-
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpGet request = new HttpGet(url);
-        request.setHeader("Content-Type", "text/xml");
-        HttpResponse response = null;
-        try {
-            response = httpClient.execute(request);
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        StringBuffer returned = new StringBuffer();
-
-        InputStream content = null;
-        try {
-            content = response.getEntity().getContent();
-//            BartXMLParser b = new BartXMLParser();
-//            ArrayList timeInfo = (ArrayList) b.parse(content);
-//            for(int i=0;i<timeInfo.size();i++){
-//                timeInfo.get(i);
-//            }
-            BufferedReader rd = new BufferedReader(new InputStreamReader(content, "UTF-8"));
-            String line;
-            while ((line = rd.readLine()) != null)
-            {
-                String endOfLine = "";
-                returned.append(line + endOfLine);
-            }
-            content.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return returned.toString();
-    }
-
-    @Override
-    protected void onPostExecute(String returned)
-    {
-        String retVal = returned.toString();
-
-        try
+        public String resultString;
+        public ArrayList<String> startDestTimes;
+        @Override
+        protected String doInBackground(String... params)
         {
-            String header = retVal.substring(0, 1);
-            if (!header.equals("<"))
-            {
-                retVal = retVal.replace(header, "");
+            String url = params[0];
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet request = new HttpGet(url);
+            request.setHeader("Content-Type", "text/xml");
+            HttpResponse response = null;
+            try {
+                response = httpClient.execute(request);
+            } catch (ClientProtocolException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
+
+            StringBuffer returned = new StringBuffer();
+
+            InputStream content = null;
+            try {
+                content = response.getEntity().getContent();
+                BufferedReader rd = new BufferedReader(new InputStreamReader(content, "UTF-8"));
+                String line;
+                while ((line = rd.readLine()) != null)
+                {
+                    String endOfLine = "";
+                    returned.append(line + endOfLine);
+                }
+                content.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return returned.toString();
         }
-        catch (Exception e)
+
+        @Override
+        protected void onPostExecute(String returned)
         {
-            // TODO: handle exception
-        }
-        resultString = returned.toString();
-        Log.d("Debug","XXXXXXXXX"+resultString);
-        long timeToAlarm = getStartDestTimes(resultString);
-        setAlarm(timeToAlarm);
-    }
+            String retVal = returned.toString();
 
-}
-    //converts the string to date and millisecond
-    private void setTime(String s) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa");
-
-        Date d = null;
-        try {
-            d = dateFormat.parse(s);
-        } catch (ParseException e) {
-            e.printStackTrace();
+            try
+            {
+                String header = retVal.substring(0, 1);
+                if (!header.equals("<"))
+                {
+                    retVal = retVal.replace(header, "");
+                }
+            }
+            catch (Exception e)
+            {
+                // TODO: handle exception
+            }
+            resultString = returned.toString();
+            Log.d("Debug","XXXXXXXXX"+resultString);
+            long timeToAlarm = getStartDestTimes(resultString);
+            setAlarm(timeToAlarm);
         }
-        //long millisecond = d.getTime();
-        //Toast toast = Toast.makeText(getApplicationContext(), "ALARM SET "+d.getTime(), Toast.LENGTH_LONG);
-        //toast.show();
-        setAlarm(d.getTime());
+
     }
 
     //this sets the alarm
     private void setAlarm(long timeToAlarm) {
         Log.d("Debug","XXXXXXXXX"+timeToAlarm);
-        Intent intentAlarm = new Intent(getBaseContext(), AlarmReceiver.class);
+
+        //Long time = new GregorianCalendar().getTimeInMillis()+60*1000;
         Long time = new GregorianCalendar().getTimeInMillis()+timeToAlarm;
         long diffHours = time / (60 * 60 * 1000) % 24;
         long diffMin = time / (60 * 1000) % 60;
         Log.d("Debug","Time for alarm"+diffHours+":"+diffMin);
-        Intent newIntent = new Intent();
-        pendingIntent = PendingIntent.getBroadcast(
-                getBaseContext(), RQS_1, newIntent, 0);
+        Intent intentAlarm = new Intent(getBaseContext(), AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP,time,
-                PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
-
+        alarmManager.set(AlarmManager.RTC_WAKEUP,time,pendingIntent);
+        startActivity(timeLeftIntent);
         Log.d("Debug","alarm set for:"+time);
     }
 
@@ -339,20 +306,22 @@ public class SetJourney extends Activity {
         ArrayList<String> res = new ArrayList<String>();
         String[] response = httpResponse.split("trip");
         for(int i=1;i<response.length-1;i=i+2){
-            int startIndex = response[i].indexOf("origTimeMin=\"")+13;
-            int endIndex = response[i].indexOf("\"",startIndex);
-            String startTime = response[i].substring(startIndex, endIndex);
-            Log.d("Debug","Train Start time "+startTime);
+            String startTime = getTimeFromResponse(response[i],"origTimeMin=\"");
             res.add(startTime);
-            String resString = response[i].substring(startIndex,endIndex);
-            startIndex = response[i].indexOf("destTimeMin=\"")+13;
-            endIndex = response[i].indexOf("\"",startIndex);
-            String endTime = response[i].substring(startIndex, endIndex);
-            res.add(endTime);
+            Log.d("Debug","Train Start time "+startTime);
 
+            String endTime = getTimeFromResponse(response[i],"destTimeMin=\"");
+            res.add(endTime);
             Log.d("Debug","Reach time of the train "+endTime);
         }
         return findMinTime(res);
+    }
+
+    private String getTimeFromResponse(String response, String pattern){
+        int startIndex = response.indexOf(pattern)+13;
+        int endIndex = response.indexOf("\"",startIndex);
+        String time = response.substring(startIndex, endIndex);
+        return time;
     }
 
     //finds the closest arrival time from the current time
@@ -366,7 +335,6 @@ public class SetJourney extends Activity {
             String time = res.get(i);
             currentTime = dateFormat.format(Calendar.getInstance().getTime());
             Date startDate = null;
-//            String timeStamp = dateFormat.format(Calendar.getInstance().getTime());
             Date curTime = null;
             try {
                 startDate = dateFormat.parse(time);
@@ -374,11 +342,11 @@ public class SetJourney extends Activity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            diff = Math.abs(curTime.getTime() - startDate.getTime());
-            if(i==0)
+            diff = curTime.getTime() - startDate.getTime();
+            if(i==0  && diff>=0)
                 min = diff;
             else{
-                if(diff<min){
+                if(diff<min && diff>=0){
                     min = diff;
                     minIndex = i;
                 }
@@ -389,19 +357,17 @@ public class SetJourney extends Activity {
         Date endTime = null;
         try {
             startTime = dateFormat.parse(currentTime);
-            //startTime = dateFormat.parse(res.get(minIndex));
             endTime = dateFormat.parse(res.get(minIndex+1));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        alarmTime = res.get(minIndex+1);
+        //alarmTime = res.get(minIndex+1);
         spinner.setVisibility(View.GONE);
-        Intent start = new Intent(getApplicationContext(), TimeLeftActivity.class);
-        startActivity(start);
+        timeLeftIntent = new Intent(getApplicationContext(), TimeLeftActivity.class);
+        timeLeftIntent.putExtra("DestinationTime",res.get(minIndex+1));
+
         long x = endTime.getTime() - startTime.getTime()-60*1*1000;
         Log.d("Debug", "XXXXXXXXX " + x);
         return x ;
     }
-
-
 }

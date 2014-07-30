@@ -18,12 +18,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO Auto-generated method stub
-        Intent wakeUpIntent = new Intent(context,WakeUpActivity.class);
-        context.startActivity(wakeUpIntent);
-
-
-
         Toast.makeText(context, "Alarm received!", Toast.LENGTH_LONG).show();
         // Get instance of Vibrator from current Context
         final Vibrator v2 = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
@@ -37,8 +31,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         //initialize Caxirola sound
         final MediaPlayer alarmSound = MediaPlayer.create(context,R.raw.cax);
         alarmSound.start();
-
-
     }
 
 }
